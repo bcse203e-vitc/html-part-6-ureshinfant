@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dynamic Hobbies Form</title>
+  <style>
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    #hobbies {
+      margin-top: 10px;
+    }
+    .hobby-input {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Hobbies Form</h2>
+  <form id="hobbiesForm">
+    <label>
+      Add Hobby:
+      <button type="button" id="addHobbyBtn">Add Hobby</button>
+    </label>
+    <div id="hobbies"></div>
+    <button type="submit" id="submitBtn">Submit</button>
+  </form>
+
+  <script>
+    const addHobbyBtn = document.getElementById('addHobbyBtn');
+    const hobbiesDiv = document.getElementById('hobbies');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    const hobbyRegex = /^[A-Za-z\s]+$/;
+
+    addHobbyBtn.addEventListener('click', () => {
+      const hobbyInput = document.createElement('input');
+      hobbyInput.type = 'text';
+      hobbyInput.className = 'hobby-input';
+      hobbyInput.placeholder = 'Enter hobby';
+
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error';
+      hobbyInput.errorDiv = errorDiv;
+
+      hobbiesDiv.appendChild(hobbyInput);
+      hobbiesDiv.appendChild(errorDiv);
+
+      hobbyInput.addEventListener('input', () => {
+        const hobbyValue = hobbyInput.value.trim();
+
+        if (hobbyValue === '') {
+          errorDiv.textContent = '';
+        } else if (!hobbyRegex.test(hobbyValue)) {
+          errorDiv.textContent = 'Hobby should only contain letters and spaces.';
+        } else {
+          errorDiv.textContent = '';
+        }
+
+        checkFormValidity();
+      });
+    });
+
+    function checkFormValidity() {
+      const hobbyInputs = document.querySelectorAll('.hobby-input');
+      const invalidInputs = Array.from(hobbyInputs).some(input => {
+        const errorDiv = input.errorDiv;
+        return errorDiv.textContent !== '';
+      });
+      
+      submitBtn.disabled = invalidInputs;
+    }
+  </script>
+</body>
+</html>
