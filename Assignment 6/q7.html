@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Date Format Validation</title>
+  <style>
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <h2>Date Format Validation</h2>
+  <form id="dateForm">
+    <label>
+      Date (DD/MM/YYYY):
+      <input type="text" id="date" name="date" placeholder="DD/MM/YYYY" />
+    </label><br><br>
+
+    <div id="dateError" class="error"></div>
+
+    <button type="submit" id="submitBtn">Submit</button>
+  </form>
+
+  <script>
+    const dateInput = document.getElementById('date');
+    const dateError = document.getElementById('dateError');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+
+    dateInput.addEventListener('input', validateDateFormat);
+
+    function validateDateFormat() {
+      const dateValue = dateInput.value.trim();
+
+      if (!dateRegex.test(dateValue)) {
+        dateError.textContent = 'Please enter a valid date in DD/MM/YYYY format.';
+        submitBtn.disabled = true;
+      } else {
+        dateError.textContent = '';
+        submitBtn.disabled = false;
+      }
+    }
+
+    document.getElementById('dateForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!dateRegex.test(dateInput.value.trim())) {
+        alert('Please enter a valid date in DD/MM/YYYY format.');
+      } else {
+        alert('Form submitted successfully!');
+      }
+    });
+  </script>
+</body>
+</html>
