@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hexadecimal Color Code Validation</title>
+  <style>
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    #colorPreview {
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+      margin-left: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h2>Hexadecimal Color Code Validation</h2>
+  <form id="colorForm">
+    <label>
+      Enter Color Code (#RRGGBB or #RGB):
+      <input type="text" id="colorCode" name="colorCode" placeholder="#FFFFFF" />
+    </label><br><br>
+
+    <div id="colorError" class="error"></div>
+
+    <div id="colorPreview"></div><br><br>
+
+    <button type="submit" id="submitBtn">Submit</button>
+  </form>
+
+  <script>
+    const colorInput = document.getElementById('colorCode');
+    const colorError = document.getElementById('colorError');
+    const colorPreview = document.getElementById('colorPreview');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+
+    colorInput.addEventListener('input', validateColorCode);
+
+    function validateColorCode() {
+      const colorValue = colorInput.value.trim();
+
+      if (!hexRegex.test(colorValue)) {
+        colorError.textContent = 'Please enter a valid hex color code (#FFF or #FFFFFF).';
+        colorPreview.style.backgroundColor = '';
+        submitBtn.disabled = true;
+      } else {
+        colorError.textContent = '';
+        colorPreview.style.backgroundColor = colorValue;
+        submitBtn.disabled = false;
+      }
+    }
+
+    document.getElementById('colorForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!hexRegex.test(colorInput.value.trim())) {
+        alert('Please enter a valid hex color code.');
+      } else {
+        alert('Form submitted successfully!');
+      }
+    });
+  </script>
+</body>
+</html>
