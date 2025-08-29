@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Password and Confirm Password Matching</title>
+  <style>
+    .message {
+      margin-top: 5px;
+      font-size: 0.9em;
+    }
+    .match {
+      color: green;
+    }
+    .no-match {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h2>Password and Confirm Password Matching</h2>
+  <form id="passwordForm">
+    <label>
+      Password:
+      <input type="password" id="password" name="password" />
+    </label><br><br>
+
+    <label>
+      Confirm Password:
+      <input type="password" id="confirmPassword" name="confirmPassword" />
+    </label><br><br>
+
+    <div id="message" class="message"></div>
+  </form>
+
+  <script>
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const messageDiv = document.getElementById('message');
+
+    passwordInput.addEventListener('input', checkPasswordMatch);
+    confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+
+    function checkPasswordMatch() {
+      const password = passwordInput.value.trim();
+      const confirmPassword = confirmPasswordInput.value.trim();
+
+      if (password === confirmPassword && password !== '') {
+        messageDiv.textContent = 'Passwords match';
+        messageDiv.className = 'message match';
+      } else if (password !== confirmPassword && confirmPassword !== '') {
+        messageDiv.textContent = 'Passwords do not match';
+        messageDiv.className = 'message no-match';
+      } else {
+        messageDiv.textContent = '';
+      }
+    }
+  </script>
+</body>
+</html>
