@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phone Number Live Validation</title>
+  <style>
+    #phoneMessage {
+      margin-top: 5px;
+      font-size: 0.9em;
+    }
+    .valid {
+      color: green;
+    }
+    .invalid {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h2>Phone Number Validation</h2>
+  <form id="phoneForm">
+    <label>
+      Phone Number:
+      <input type="text" id="phone" name="phone" placeholder="(123) 456-7890 or 123-456-7890" />
+    </label>
+    <div id="phoneMessage"></div>
+  </form>
+
+  <script>
+    const phoneInput = document.getElementById('phone');
+    const phoneMessage = document.getElementById('phoneMessage');
+
+  
+    const phoneRegex = /^(\(\d{3}\)\s|\d{3}-)\d{3}-\d{4}$/;
+
+    phoneInput.addEventListener('input', () => {
+      const phone = phoneInput.value.trim();
+
+      if (phone === '') {
+        phoneMessage.textContent = '';
+        phoneMessage.className = '';
+        return;
+      }
+
+      if (phoneRegex.test(phone)) {
+        phoneMessage.textContent = 'Valid phone number';
+        phoneMessage.className = 'valid';
+      } else {
+        phoneMessage.textContent = 'Invalid phone number format';
+        phoneMessage.className = 'invalid';
+      }
+    });
+  </script>
+</body>
+</html>
