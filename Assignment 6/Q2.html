@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Email Validation on Blur</title>
+  <style>
+    #message {
+      margin-top: 5px;
+      font-size: 0.9em;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h2>Email Validation</h2>
+  <form id="emailForm">
+    <label>
+      Email:
+      <input type="text" id="email" name="email" />
+    </label>
+    <div id="message"></div>
+  </form>
+
+  <script>
+    const emailInput = document.getElementById('email');
+    const messageDiv = document.getElementById('message');
+
+    const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+    emailInput.addEventListener('blur', () => {
+      const email = emailInput.value.trim();
+      if (email === '') {
+        messageDiv.textContent = '';
+        messageDiv.className = '';
+        return;
+      }
+      if (emailRegex.test(email)) {
+        messageDiv.textContent = 'Valid email address.';
+        messageDiv.className = 'success';
+      } else {
+        messageDiv.textContent = 'Invalid email format.';
+        messageDiv.className = 'error';
+      }
+    });
+  </script>
+</body>
+</html>
