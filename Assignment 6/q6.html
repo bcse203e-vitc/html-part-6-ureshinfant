@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Username Validation</title>
+  <style>
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <h2>Username Validation</h2>
+  <form id="usernameForm">
+    <label>
+      Username:
+      <input type="text" id="username" name="username" />
+    </label><br><br>
+
+    <div id="usernameError" class="error"></div>
+
+    <button type="submit" id="submitBtn">Submit</button>
+  </form>
+
+  <script>
+    const usernameInput = document.getElementById('username');
+    const usernameError = document.getElementById('usernameError');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const usernameRegex = /^[a-zA-Z0-9_]{3,16}$/;
+
+    usernameInput.addEventListener('input', validateUsername);
+
+    function validateUsername() {
+      const username = usernameInput.value.trim();
+
+      if (!usernameRegex.test(username)) {
+        usernameError.textContent = 'Username must be 3-16 characters long and contain only letters, numbers, or underscores.';
+        submitBtn.disabled = true;
+      } else {
+        usernameError.textContent = '';
+        submitBtn.disabled = false;
+      }
+    }
+
+    
+    document.getElementById('usernameForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (submitBtn.disabled) {
+        alert('Please enter a valid username.');
+      } else {
+        alert('Form submitted successfully!');
+      }
+    });
+  </script>
+</body>
+</html>
