@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Form Builder</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    select, button, input { margin: 5px; padding: 6px; }
+    .field-container { margin: 8px 0; }
+    .error { color: red; font-size: 0.9em; }
+    .success { color: green; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <h1>Dynamic Form Builder UI</h1>
+
+  <label for="fieldType">Choose Input Type: </label>
+  <select id="fieldType">
+    <option value="text">Text</option>
+    <option value="email">Email</option>
+    <option value="password">Password</option>
+  </select>
+
+  <button onclick="addField()">Add</button>
+
+  <form id="dynamicForm" onsubmit="return validateForm()">
+    <h3>Generated Form:</h3>
+    <div id="formFields"></div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    let fieldCount = 0;
+
+    function addField() {
+      const type = document.getElementById("fieldType").value;
+      fieldCount++;
+
+      const container = document.createElement("div");
+      container.className = "field-container";
+
+      const label = document.createElement("label");
+      label.textContent = type.charAt(0).toUpperCase() + type.slice(1) + ": ";
+
+      const input = document.createElement("input");
+      input.type = type;
+      input.name = type + fieldCount;
+      input.required = true;
+
+      const message = document.createElement("span");
+      message.className = "error";
+      message.id = "msg" + fieldCount;
+
+      container.appendChild(label);
+      container.appendChild(input);
+      container.appendChild(message);
+
+      document.getElementById("formFields").appendChild(container);
+    }
+
+    function validateForm() {
+      let valid = true;
+      const inputs = document.querySelectorAll("#formFields input");
+
+      inputs.forEach((input, index) => {
+        const msg = document.getElementById("msg" + (index+1));
+        msg.textContent = "";
+
+        if (input.type === "email") {
+          const regex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+          if (!regex.test(input.value)) {
+            msg.textContent = " Invalid email format";
+            valid = false;
+          }
+        }
+        if (input.type === "password") {
+          const regex = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+          if (!regex.test(input.value)) {
+            msg.textContent = " Password must be 8+ chars, 1 uppercase & 1 number";
+            valid = false;
+          }
+        }
+        if (input.type === "text") {
+          if (input.value.trim().length < 3) {
+            msg.textContent = " Minimum 3 characters required";
+            valid = false;
+          }
+        }
+      });
+
+      if (valid) {
+        alert("Form submitted successfully!");
+      }
+      return valid;
+    }
+  </script>
+</body>
+</html>
